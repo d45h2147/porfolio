@@ -1,0 +1,95 @@
+---
+import { Icon } from "astro-icon/components";
+import type { ListProject } from "../../store/list-projects";
+import { extractTags, extractSkills } from "../../store/list-projects";
+interface Props {
+  project: ListProject;
+  disableLink?: boolean;
+}
+
+const { project, disableLink = false } = Astro.props;
+const tags = extractTags(project);
+const skills = extractSkills(project);
+---
+
+<article class="card-proyect group" data-tags={tags} data-skills={skills}>
+  <div
+    class="flex flex-col overflow-hidden rounded-lg bg-gray-200 shadow-lg transition-colors dark:bg-gray-800"
+  >
+    <header class="relative h-32 overflow-hidden transition-all duration-300 group-hover:h-52">
+      <img
+        src={project.images[0]}
+        alt={project.name}
+        class="h-full w-full object-cover transition-all duration-300 group-hover:scale-110"
+        loading="lazy"
+        decoding="async"
+      />
+      <h1 class="absolute left-3 top-3 text-2xl font-bold text-primary">{project.name}</h1>
+      <div
+        class="absolute bottom-3 left-3 flex flex-wrap gap-2 opacity-0 transition-all duration-500 group-hover:opacity-100"
+      >
+        {
+          project.stack.map((stack) => (
+            <div class="tag">
+              <Icon
+                name={stack.icon}
+                class={`h-4 w-4 ${stack.color}`}
+                id={`icon-stack-${stack.name}`}
+              />
+              <span class="text-xs font-semibold">{stack.name}</span>
+            </div>
+          ))
+        }
+        <span class="tag">
+          {project.level}
+        </span>
+      </div>
+    </header>
+    <section class="flex flex-col gap-2 p-3">
+      <p class="text-lg text-gray-600 dark:text-gray-400">
+        {project.description}
+      </p>
+      <div class="flex flex-wrap gap-2">
+        {project.tags.map((tag) => <span class="tag rounded-md text-gray-600">{tag}</span>)}
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <a href={project.urlRepo} class="text-primary">Ver repositorio</a>
+        <a href={project.urlDeploy} class="text-primary">Ver demo</a>
+      </div>
+    </section>
+  </div>
+</article>
+
+<style>
+  .tooltip {
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid #ccc;
+    padding: 5px;
+  }
+
+  .tooltip:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 12px;
+    white-space: normal;
+    border-radius: 4px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    /* z-index: 10; */
+  }
+
+  .tooltip::after {
+    display: none;
+  }
+
+  .tooltip:hover::after {
+    display: block;
+  }
+</style>

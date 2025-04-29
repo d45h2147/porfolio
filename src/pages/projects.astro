@@ -1,0 +1,125 @@
+---
+import LayoutGlobal from "../layouts/layout-global.astro";
+import CardProyect from "../components/cards/card-proyect.astro";
+import { listProject, getAllTags, getAllSkills } from "../store/list-projects";
+
+const projects = listProject.get();
+const listTags = getAllTags();
+const listSkills = getAllSkills();
+---
+
+<LayoutGlobal title="Proyectos">
+  <section class="flex flex-1 flex-col py-12">
+    <h1 class="pb-6 text-4xl font-extrabold text-primary sm:text-5xl">Proyectos</h1>
+
+    <div class="flex items-start gap-2 py-6">
+      <section class="flex flex-wrap gap-2">
+        <button class="tag" id="btn-clear-tags">Limpiar</button>
+        {
+          Array.from(listSkills).map((skill) => (
+            <button class="tag" data-skill={skill} data-type="skill" data-active="false">
+              {skill}
+            </button>
+          ))
+        }
+
+        {
+          Array.from(listTags).map((tag) => (
+            <button class="tag" data-tag={tag} data-type="tag" data-active="false">
+              {tag}
+            </button>
+          ))
+        }
+      </section>
+    </div>
+
+    <section class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {projects.map((project) => <CardProyect project={project} disableLink={true} />)}
+    </section>
+  </section>
+</LayoutGlobal>
+
+<script>
+  const itemsTags = document.querySelectorAll(".tag[data-type='tag']");
+  const itemsSkills = document.querySelectorAll(".tag[data-type='skill']");
+
+  const urlParams = new URLSearchParams(window.location.search);
+
+  const btnClearTags = document.getElementById("btn-clear-tags");
+
+  btnClearTags?.addEventListener("click", () => {
+    urlParams.delete("tag");
+    urlParams.delete("skill");
+    history.pushState({}, "", `${window.location.pathname}?${urlParams.toString()}`);
+    itemsTags.forEach((button) => ((button as HTMLElement).dataset.active = "false"));
+    itemsSkills.forEach((button) => ((button as HTMLElement).dataset.active = "false"));
+    renderFilteredProjects();
+  });
+
+  const renderFilteredProjects = () => {
+    const selectedTags = urlParams.getAll("tag");
+    const selectedSkills = urlParams.getAll("skill");
+
+    const projects: HTMLElement[] = Array.from(document.querySelectorAll(".card-proyect"));
+    if (projects.length === 0) return;
+
+    projects.forEach((project: HTMLElement) => {
+      const projectTags = project.dataset.tags?.split(",") ?? [];
+      const projectSkills = project.dataset.skills?.split(",") ?? [];
+
+      const matchesTag =
+        !selectedTags.length || selectedTags.some((tag) => projectTags.includes(tag));
+      const matchesSkill =
+        !selectedSkills.length || selectedSkills.some((skill) => projectSkills.includes(skill));
+
+      if (matchesTag && matchesSkill) {
+        project.style.display = "block";
+      } else {
+        project.style.display = "none";
+      }
+    });
+  };
+
+  const updateUrlParams = (type: string, value: string, isActive: boolean) => {
+    if (isActive) {
+      urlParams.append(type, value);
+    } else {
+      const params = urlParams.getAll(type).filter((param) => param !== value);
+      urlParams.delete(type);
+      params.forEach((param) => urlParams.append(type, param));
+    }
+
+    const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+    history.pushState({}, "", newUrl);
+
+    renderFilteredProjects();
+  };
+
+  const handleFilterClick = (event: Event) => {
+    const button = event.target as HTMLElement;
+    const type = button.dataset.type as string;
+    const value = button.dataset[type] as string;
+    const isActive = button.dataset.active === "true";
+    button.dataset.active = !isActive ? "true" : "false";
+    updateUrlParams(type, value, !isActive);
+  };
+
+  itemsTags.forEach((button) => button.addEventListener("click", handleFilterClick));
+  itemsSkills.forEach((button) => button.addEventListener("click", handleFilterClick));
+
+  window.addEventListener("DOMContentLoaded", () => {
+    urlParams.getAll("tag").forEach((tag) => {
+      const button: HTMLButtonElement | null = document.querySelector(`.tag[data-tag='${tag}']`);
+      if (button) button.dataset.active = "true";
+    });
+
+    urlParams.getAll("skill").forEach((skill) => {
+      const button: HTMLButtonElement | null = document.querySelector(
+        `.tag[data-skill='${skill}']`,
+      );
+      if (button) button.dataset.active = "true";
+    });
+
+    renderFilteredProjects();
+  });
+</script>

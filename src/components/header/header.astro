@@ -1,0 +1,27 @@
+---
+import ThemeToggle from "./theme-toggle.astro";
+import NavbarMobile from "./nav/nav-mobile.astro";
+import NavbarWeb from "./nav/nav-web.astro";
+---
+
+<header class="fixed w-full z-10">
+  <!-- <section class="flex size-10 items-center justify-center rounded-full">
+    <a aria-label="Home" class="pointer-events-auto" href="/">
+      <img
+        src="/logo.svg"
+        alt="logo of Daren Sh"
+        fetchpriority="high"
+        class="size-9 rounded-full bg-gray-100 object-cover ring-1 ring-gray-900/5 backdrop-blur dark:bg-gray-800/90 dark:ring-white/10"
+      />
+    </a>
+  </section> -->
+  <section class="z-10 mx-auto flex max-w-5xl gap-2 px-4 py-2 md:flex-row">
+    <div class="m-auto hidden md:block">
+      <NavbarWeb />
+    </div>
+    <div class="md:hidden">
+      <NavbarMobile />
+    </div>
+    <ThemeToggle />
+  </section>
+</header>

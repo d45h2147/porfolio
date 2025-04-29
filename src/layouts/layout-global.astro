@@ -1,0 +1,46 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+
+import Header from "../components/header/header.astro";
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title || "Daren dev"}</title>
+    <script is:inline>
+      function getTheme() {
+        const savedTheme = localStorage?.getItem("theme");
+        if (savedTheme) return savedTheme;
+
+        const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        return systemPrefersDark ? "dark" : "light";
+      }
+      function setTheme(theme) {
+        document.documentElement.classList.toggle("dark", theme === "dark");
+      }
+      const currentTheme = getTheme();
+      setTheme(currentTheme);
+    </script>
+  </head>
+  <body class="mx-auto">
+    <Header />
+    <main class="mx-auto max-w-5xl flex-1 px-2 py-12">
+      <slot />
+    </main>
+    <footer class="w-full bg-gray-200 py-6 dark:bg-gray-800/90">
+      <div class="mx-auto max-w-7xl px-6 text-center text-sm text-gray-400">
+        <p>&copy; 2024 Daren Salazar</p>
+      </div>
+    </footer>
+  </body>
+</html>

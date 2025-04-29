@@ -1,0 +1,234 @@
+---
+import LayoutGlobal from "../layouts/layout-global.astro";
+import CardProyect from "../components/cards/card-proyect.astro";
+import { listExperience } from "../store/list-experiencies";
+import type { ListExperience } from "../store/list-experiencies";
+import { getLastestProject } from "../store/list-projects";
+
+import { Icon } from "astro-icon/components";
+---
+
+<LayoutGlobal title="Inicio">
+  <div class="banner" onMouseLeave={() => setSide(null)}>
+    <div
+      class="side left"
+      onMouseEnter={() => setSide("frontend")}
+      onClick={() => setSide("frontend")}
+    >
+      <img src="/me-frontend.jpg" alt="Frontend" />
+    </div>
+    <div
+      class="side right"
+      onMouseEnter={() => setSide("backend")}
+      onClick={() => setSide("backend")}
+    >
+      <img src="/me-backend.jpg" alt="Backend" />
+    </div>
+    <div class="overlay" data-side={side}></div>
+    <div class="label">
+      <p transition:fade>
+        {side === "frontend" && "Frontend Developer"}
+        {side === "backend" && "Backend Developer"}
+        {!side && "Full-Stack Developer"}
+      </p>
+    </div>
+  </div>
+
+  <section class="py-12">
+    <div class="flex flex-row items-center justify-center">
+      <img
+        src="https://gitlab.com/uploads/-/system/user/avatar/7170873/avatar.png"
+        alt="Daren Salazar"
+        class="m-4 rounded-full"
+        width="200"
+        height="200"
+        style="shape-outside: circle(50%); float: left;"
+      />
+
+      <h1 class="inline text-4xl font-extrabold text-primary sm:text-5xl">
+        Daren Salazar Hernández,
+        <span class="pl-3 text-gray-800 dark:text-gray-500">
+          más alla del código, desarrollando ideas
+        </span>
+      </h1>
+    </div>
+
+    <p class="mt-8 text-lg text-gray-600 dark:text-gray-400">
+      <strong class="text-primary">Desarrollador FullStack</strong> con mas de 5 años de
+      <a href="/experience" class="font-bold text-primary underline">experiencia</a>
+      apasionado por construir soluciones modernas e inteligentes.
+    </p>
+    <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+      Con experiencia en tecnologías como <strong class="text-primary">
+        React.js, React Native, Vuejs 3, Astro, Tailwind CSS, TypeScript
+      </strong>, y una sólida base en servicios en la nube con
+      <strong class="text-primary">AWS y Azure</strong>, llevo las ideas a la realidad.
+    </p>
+    <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+      <strong class="text-primary">Integro</strong> funciones avanzadas de
+      <strong class="text-primary">inteligencia artificial</strong>
+      en aplicaciones mediante modelos LLM con métodos como
+      <strong class="text-primary">RAG (Retrieval-Augmented Generation)</strong>, utilizando bases
+      de datos vectoriales como OpenSearch y/o cualquier fuente de informacion para maximizar la
+      relevancia y el contexto de las respuestas.
+    </p>
+    <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+      Mi experiencia abarca desde desarrollar <strong class="text-primary">microservicios</strong> con
+      Flask y FastAPI hasta diseñar interfaces intuitivas y sistemas escalables. Me apasiona aprender
+      constantemente y enfrentar nuevos retos, lo que me permite evolucionar junto con las demandas del
+      mundo tecnológico. Mis soluciones no solo cumplen con los requerimientos; están diseñadas para
+      elevar el estándar del producto final y
+      <strong class="text-primary">maximizar su impacto</strong>.
+    </p>
+    <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+      ¿Buscas integrar inteligencia artificial o construir aplicaciones escalables y confiables?
+      <strong class="text-primary">Contáctame</strong>, y juntos llevaremos tus proyectos al
+      siguiente nivel.
+    </p>
+  </section>
+
+  <section class="pb-12">
+    <h2 class="text-4xl font-extrabold text-primary sm:text-5xl">
+      <a href="/projects" class="underline">Proyectos</a> destacados
+    </h2>
+
+    <p class="mt-6 text-lg text-gray-600 dark:text-gray-400">
+      Estos proyectos son los que he desarrollado en los últimos meses y son los que me siento más
+      orgulloso, cada uno con su propia historia y desafíos. muchos son realizados para clientes,
+      otros son proyectos personales para practicar nuevas tecnologías.
+    </p>
+
+    <div class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {getLastestProject().map((project) => <CardProyect project={project} />)}
+    </div>
+  </section>
+  <section class="flex flex-1 flex-col py-12">
+    <h1 class="pb-6 text-4xl font-extrabold text-primary sm:text-5xl">Experiencia</h1>
+
+    {
+      listExperience.get().map((experience: ListExperience) => (
+        <article class="experience-item group mt-6 flex rounded-lg bg-gray-200 p-4 shadow-lg transition-colors dark:bg-gray-800">
+          <div class="relative border-l-4 border-primary pl-4">
+            {/* <div
+              class="absolute left-[-20px] top-1/3 flex size-10 items-center justify-center rounded-full border-4 border-primary border-l-gray-200 border-t-gray-200 bg-gray-200 dark:border-l-gray-800 dark:border-t-gray-800 dark:bg-gray-800"
+              style="transform: rotate(136deg)"
+            >
+              <div class="absolute z-10 flex size-7 items-center justify-center rounded-full bg-primary" />
+            </div> */}
+            <h2 class="text-2xl font-bold">
+              {experience.role} - {experience.company}
+            </h2>
+            <p class="text-lg text-gray-600 dark:text-gray-400">
+              {experience.duration.start} - {experience.duration.end}
+            </p>
+            <p class="text-lg text-gray-600 dark:text-gray-400">
+              <strong class="text-primary">{experience.role}</strong> {experience.description}
+            </p>
+            <div class="mt-4">
+              <ul class="flex flex-wrap gap-2">
+                {experience.skills.map((skill) => (
+                  <li class="flex items-center gap-2">
+                    <span class="tag">
+                      <Icon name={skill.icon} class={`h-4 w-4`} />
+                      {skill.name}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+</LayoutGlobal>
+<script>
+  let side = null;
+  const banner = document.querySelector(".banner");
+  const overlay = document.querySelector(".overlay") as HTMLElement | null;
+  const label = document.querySelector(".label p");
+
+  function setSide(value: string | null) {
+    side = value;
+    if (overlay) {
+      overlay.dataset.side = value || "";
+    }
+    if (label) {
+      label.textContent =
+        value === "frontend"
+          ? "Frontend Developer"
+          : value === "backend"
+            ? "Backend Developer"
+            : "Full-Stack Developer";
+    }
+  }
+
+  banner?.addEventListener("mouseleave", () => setSide(null));
+</script>
+
+<style>
+  .banner {
+    position: relative;
+    display: flex;
+    height: 400px;
+    overflow: hidden;
+  }
+
+  .side {
+    flex: 1;
+    transition:
+      transform 0.5s ease,
+      filter 0.5s ease;
+    position: relative;
+  }
+
+  .side img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .banner:hover .side.left:hover,
+  .banner:has(.side.left:hover) .side.left {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+  }
+
+  .banner:hover .side.right:hover,
+  .banner:has(.side.right:hover) .side.right {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    background: rgba(0, 0, 0, 0.4);
+    transition: transform 0.5s ease;
+    pointer-events: none;
+  }
+
+  .overlay[data-side="frontend"] {
+    left: 0;
+    transform: translateX(0%);
+  }
+  .overlay[data-side="backend"] {
+    left: 50%;
+    transform: translateX(0%);
+  }
+  .overlay:not([data-side]) {
+    transform: translateX(-100%);
+  }
+
+  .label {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 2rem;
+    transition: opacity 0.3s ease;
+  }
+</style>

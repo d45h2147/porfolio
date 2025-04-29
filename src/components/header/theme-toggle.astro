@@ -1,0 +1,47 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<button
+  id="theme-toggle"
+  class="rounded-full bg-gray-200 p-2 transition-colors dark:bg-gray-800/90"
+>
+  <Icon
+    id="theme-toggle-dark-icon"
+    class="hidden h-5 w-5 dark:block"
+    name="lucide:moon"
+  />
+  <Icon id="theme-toggle-light-icon" class="block h-5 w-5 dark:hidden" name="lucide:sun" />
+</button>
+
+<script is:inline>
+  const themeToogleButton = document.getElementById("theme-toggle");
+  const htmlElement = document.documentElement;
+
+  function setTheme(theme) {
+    localStorage.setItem("theme", theme);
+    htmlElement.classList.toggle("dark", theme === "dark");
+  }
+
+  function toggleTheme() {
+    const currentTheme =
+      localStorage.getItem("theme") ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+  }
+
+  const savedTheme =
+    localStorage.getItem("theme") ||
+    (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  setTheme(savedTheme);
+
+  themeToogleButton.addEventListener("click", toggleTheme);
+
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+    if (!localStorage.getItem("theme")) {
+      setTheme(e.matches ? "dark" : "light");
+    }
+  });
+</script>

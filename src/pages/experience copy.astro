@@ -1,0 +1,98 @@
+---
+import LayoutGlobal from "../layouts/layout-global.astro";
+import { Icon } from "astro-icon/components";
+---
+
+<LayoutGlobal title="Experiencia">
+  <h1>Experiencia</h1>
+  <ul class="timeline relative flex w-full list-none flex-col gap-4">
+    <!-- Timeline Item -->
+    <li class="timeline-item relative p-4" data-number="1">
+      <div>
+        <h3 class="text-lg font-semibold">Título del evento</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Descripción del evento</p>
+        <span class="mt-1 block text-xs text-gray-500 dark:text-gray-500">Fecha: 01/01/2025</span>
+      </div>
+    </li>
+
+    <!-- Timeline Item Alternado -->
+    <li class="timeline-item relative flex p-4" data-number="2">
+      <div>
+        <h3 class="text-lg font-semibold">Otro título</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Otra descripción</p>
+        <span class="mt-1 block text-xs text-gray-500 dark:text-gray-500">Fecha: 02/01/2025</span>
+      </div>
+    </li>
+
+    <!-- Otro ejemplo -->
+    <li class="timeline-item relative p-4" data-number="3">
+      <div>
+        <h3 class="text-lg font-semibold">Evento especial</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Detalles importantes</p>
+        <span class="mt-1 block text-xs text-gray-500 dark:text-gray-500">Fecha: 03/01/2025</span>
+      </div>
+    </li>
+    <li class="timeline-item relative p-4" data-number="3">
+      <div>
+        <h3 class="text-lg font-semibold">Evento especial</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Detalles importantes</p>
+        <span class="mt-1 block text-xs text-gray-500 dark:text-gray-500">Fecha: 03/01/2025</span>
+      </div>
+    </li>
+    <li class="timeline-item relative p-4" data-number="3">
+      <div>
+        <h3 class="text-lg font-semibold">Evento especial</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Detalles importantes</p>
+        <span class="mt-1 block text-xs text-gray-500 dark:text-gray-500">Fecha: 03/01/2025</span>
+      </div>
+    </li>
+  </ul>
+</LayoutGlobal>
+<style>
+  :root {
+    --timeline-color: #1b1b1b;
+    --timeline-bd-width: 2px;
+    --timeline-item-size: 40px;
+    --w-timeline-counter: decimal;
+  }
+  .timeline-item {
+    width: 50%;
+    display: flex;
+    align-items: center;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    left: calc(50% - var(--timeline-bd-width));
+    width: var(--timeline-bd-width);
+    background-color: var(--timeline-color);
+  }
+  .timeline-item:before {
+    content: attr(data-number);
+    position: absolute;
+    width: var(--timeline-item-size);
+    height: var(--timeline-item-size);
+    background-color: var(--timeline-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+  .timeline-item:nth-child(even) {
+    left: 50%;
+    padding-left: 2rem;
+  }
+  .timeline-item:nth-child(odd) {
+    flex-direction: row-reverse;
+    padding-right: 2rem;
+  }
+  .timeline-item:nth-child(odd)::before {
+    right: -1.25rem;
+    flex-direction: row-reverse;
+  }
+  .timeline-item:nth-child(even)::before {
+    left: -1.25rem;
+  }
+</style>

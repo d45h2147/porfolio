@@ -1,0 +1,117 @@
+---
+import { navItems } from "../../../store/nav-item";
+const listItems = navItems.get();
+const pathname = new URL(Astro.request.url).pathname;
+
+---
+
+<div
+  id="menu-popover-backdrop"
+  class="invisible fixed inset-0 z-40 bg-gray-800/40 opacity-0 backdrop-blur-sm transition-all duration-300 data-[state=open]:visible data-[state=open]:opacity-100 dark:bg-black/80"
+  aria-hidden="true"
+  data-state="closed"
+  role="presentation"
+>
+</div>
+
+<div
+  id="menu-popover-panel"
+  class="invisible fixed inset-x-4 top-8 z-50 origin-top scale-95 rounded-3xl bg-white p-8 opacity-0 ring-1 ring-gray-900/5 transition-all duration-300 data-[state=open]:visible data-[state=open]:scale-100 data-[state=open]:opacity-100 dark:bg-gray-900 dark:ring-gray-800"
+  tabindex="-1"
+  data-state="closed"
+>
+  <div class="flex flex-row-reverse items-center justify-between">
+    <button aria-label="Close menu" class="-m-1 p-1" type="button" id="menu-close-button">
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="h-6 w-6 text-gray-500 dark:text-gray-400">
+        <path
+          d="m17.25 6.75-10.5 10.5M6.75 6.75l10.5 10.5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+    </button>
+  </div>
+  <nav class="mt-6" role="menu">
+    <ul
+      class="-my-2 divide-y divide-gray-100 text-base text-gray-800 dark:divide-gray-100/5 dark:text-gray-300"
+    >
+      {
+        listItems.map((item, index) => (
+          <li role="menuitem" tabindex={index}>
+            <a
+              class:list={[
+                "block py-2",
+                pathname === item.href ? "font-bold text-primary" : "text-gray-600 dark:text-gray-400",
+              ]}
+              href={item.href}
+              role="menuitem"
+              aria-current={pathname === item.href}
+              aria-label={item.name}
+              tabindex={index}
+            >
+              {item.name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</div>
+
+<button
+  id="menu-open-button"
+  class="flex items-center justify-center"
+  aria-label="Open menu"
+  aria-labelledby="menu-open-button"
+>
+  <svg viewBox="0 0 24 24" class="size-6">
+    <path
+      d="M3 12h18M3 6h18M3 18h18"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"></path>
+  </svg>
+</button>
+
+<script>
+  const backdrop = document.getElementById("menu-popover-backdrop");
+  const panel = document.getElementById("menu-popover-panel");
+  const closeButton = document.getElementById("menu-close-button");
+  const openButton = document.getElementById("menu-open-button");
+
+  function openMenu() {
+    if (backdrop && panel && openButton) {
+      backdrop.dataset.state = "open";
+      panel.dataset.state = "open";
+      backdrop.setAttribute("aria-hidden", "false");
+      panel.setAttribute("aria-hidden", "false");
+      panel.focus();
+      openButton.setAttribute("aria-hidden", "true");
+      openButton.classList.add("hidden");
+    }
+  }
+
+  function closeMenu() {
+    if (backdrop && panel && openButton) {
+      backdrop.dataset.state = "closed";
+      panel.dataset.state = "closed";
+      backdrop.setAttribute("aria-hidden", "true");
+      panel.setAttribute("aria-hidden", "true");
+      openButton.setAttribute("aria-hidden", "false");
+      openButton.classList.remove("hidden");
+    }
+  }
+
+  backdrop?.addEventListener("click", closeMenu);
+  closeButton?.addEventListener("click", closeMenu);
+  openButton?.addEventListener("click", openMenu);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && backdrop?.dataset.state === "open") {
+      closeMenu();
+    }
+  });
+</script>

@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-white text-black dark:bg-gray-900 dark:text-white;
+  display: flex;
+  flex-direction: column;
+}
+
+.tag {
+  @apply inline-flex flex-none items-center gap-1 rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 shadow-sm shadow-gray-400 dark:bg-gray-200 dark:text-gray-800;
+}
+
+.tag:hover {
+  @apply bg-gray-200 dark:bg-gray-300;
+}
+
+.tag[data-active="true"] {
+  @apply bg-primary font-bold text-white shadow-sm shadow-primary;
+}
+
+.tag[data-active="true"]:hover {
+  @apply bg-primary/80;
+}

@@ -1,0 +1,36 @@
+{
+  "name": "daren-sh-porfolio",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/tailwind": "^5.1.2",
+    "@astrojs/vue": "^4.5.3",
+    "@iconify-json/logos": "^1.2.4",
+    "@iconify-json/lucide": "^1.2.20",
+    "@iconify-json/mdi": "^1.2.1",
+    "@iconify-json/streamline-emojis": "^1.2.0",
+    "@nanostores/vue": "^0.11.0",
+    "astro": "^5.0.0-beta.12",
+    "nanostores": "^0.11.3",
+    "tailwindcss": "^3.4.15",
+    "typescript": "^5.7.2",
+    "vue": "^3.5.13"
+  },
+  "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab",
+  "devDependencies": {
+    "astro-icon": "^1.1.4",
+    "eslint": "^9.16.0",
+    "eslint-plugin-tailwindcss": "^3.13.0",
+    "prettier": "^3.4.1",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "prettier-plugin-tailwindcss": "^0.6.9"
+  }
+}
