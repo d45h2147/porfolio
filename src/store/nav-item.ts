@@ -12,11 +12,11 @@ export const navItems = atom<NavItem[]>([
     href: "/",
     isActive: false,
   },
-  {
-    name: "Experiencia",
-    href: "/experience",
-    isActive: false,
-  },
+  // {
+  //   name: "Experiencia",
+  //   href: "/experience",
+  //   isActive: false,
+  // },
   {
     name: "Proyectos",
     href: "/projects",
