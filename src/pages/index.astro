@@ -7,6 +7,10 @@ import type { ListExperience } from "../store/list-experiencies";
 import { getLastestProject } from "../store/list-projects";
 
 import { Icon } from "astro-icon/components";
+
+const showExp: number = 0;
+const visible = true;
+const message = "Astro is awesome!";
 ---
 
 <LayoutGlobal title="Inicio">
@@ -52,40 +56,55 @@ import { Icon } from "astro-icon/components";
     </p>
     <section class="flex flex-1 flex-col py-12">
       <h1 class="pb-6 text-4xl font-extrabold text-primary sm:text-5xl">Experiencia</h1>
-      {
-        listExperience.get().map((experience: ListExperience) => (
-          <article class="experience-item group mt-6 flex rounded-lg bg-gray-200 p-4 shadow-lg transition-colors dark:bg-gray-800">
-            <div class="relative border-l-4 border-primary pl-4">
-              <h2 class="text-2xl font-bold">
-                {experience.role} - {experience.company}
-              </h2>
-              <p class="text-lg text-gray-600 dark:text-gray-400">
-                {experience.duration.start} - {experience.duration.end}
-              </p>
-              <p class="text-lg text-gray-600 dark:text-gray-400">
-                {experience.description}
-              </p>
-              <ul>
-                {experience.logros.map((logro) => (
-                  <li class="text-lg text-gray-600 dark:text-gray-400">* {logro}</li>
-                ))}
-              </ul>
-              <div class="mt-4">
-                <ul class="flex flex-wrap gap-2">
-                  {experience.skills.map((skill) => (
-                    <li class="flex items-center gap-2">
-                      <span class="tag">
-                        <Icon name={skill.icon} class={`h-4 w-4`} />
-                        {skill.name}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </article>
-        ))
-      }
+      <div class="flex flex-1 gap-4">
+        <ul class="h-full w-2/6 overflow-hidden border-l-4 border-primary">
+          {
+            listExperience.get().map((exp: ListExperience, index: number) => (
+              <li class="experience-tab cursor-pointer" data-index={index}>
+                <span class="block px-5 py-10">{exp.company}</span>
+                <div style="width: 0px;" class="transition-all duration-300" />
+              </li>
+            ))
+          }
+        </ul>
+        <div class="w-4/6">
+          {
+            listExperience.get().map((exp: ListExperience, index) => (
+              <article
+                data-index={index}
+                class="experience-item slide-target mt-6 hidden rounded-lg bg-gray-200 p-4 shadow-lg transition-colors dark:bg-gray-800"
+              >
+                <div class="relative border-l-4 border-primary pl-4">
+                  <h2 class="text-2xl font-bold">
+                    {exp.role} - {exp.company}
+                  </h2>
+                  <p class="text-lg text-gray-600 dark:text-gray-400">
+                    {exp.duration.start} - {exp.duration.end}
+                  </p>
+                  <p class="text-lg text-gray-600 dark:text-gray-400">{exp.description}</p>
+                  <ul>
+                    {exp.logros.map((logro) => (
+                      <li class="text-lg text-gray-600 dark:text-gray-400">* {logro}</li>
+                    ))}
+                  </ul>
+                  <div class="mt-4">
+                    <ul class="flex flex-wrap gap-2">
+                      {exp.skills.map((skill) => (
+                        <li class="flex items-center gap-2">
+                          <span class="tag">
+                            <Icon name={skill.icon} class={`h-4 w-4`} />
+                            {skill.name}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
     </section>
 
     <section class="pb-12">
@@ -105,3 +124,81 @@ import { Icon } from "astro-icon/components";
     </section>
   </div>
 </LayoutGlobal>
+<script>
+  const tabs: HTMLElement[] = Array.from(document.querySelectorAll(".experience-tab"));
+  const tabBorder: HTMLElement[] = Array.from(document.querySelectorAll(".experience-tab div"));
+
+  const items: HTMLElement[] = Array.from(document.querySelectorAll(".experience-item"));
+
+  let activeIndex = 0;
+  items[0].classList.remove("hidden");
+  items[0].classList.add("flex");
+
+  function updateActiveTab(index: number) {
+    tabBorder.forEach((tab, i) => {
+      tab.style.width = "0px";
+      tab.classList.remove(
+        "border-b-4",
+        "border-primary",
+        // "animate-fade-right",
+        // "animate-duration-400",
+        // "animate-delay-0",
+        // "animate-ease-linear",
+        // "animate-normal",
+        // "animate-fill-both",
+      );
+
+      if (i == index) {
+        tab.style.width = "100%";
+        tab.classList.add(
+          "border-b-4",
+          "border-primary",
+          // "animate-fade-right",
+          // "animate-duration-400",
+          // "animate-delay-0",
+          // "animate-ease-linear",
+          // "animate-normal",
+          // "animate-fill-both",
+        );
+      }
+    });
+    tabs.forEach((tab, i) => {
+      tab.classList.remove("font-bold");
+
+      if (i == index) {
+        tab.classList.add("font-bold");
+      }
+    });
+
+    items.forEach((item) => {
+      item.classList.add("hidden");
+      item.classList.remove(
+        "animate-fade-up",
+        "animate-once",
+        "animate-duration-400",
+        "animate-ease-linear",
+      );
+    });
+
+    const current = document.querySelector(`.experience-item[data-index="${index}"]`);
+    if (current) {
+      current.classList.remove("hidden");
+      current.classList.add(
+        "animate-fade-up",
+        "animate-once",
+        "animate-duration-400",
+        "animate-ease-linear",
+      );
+    }
+
+    activeIndex = index;
+  }
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => {
+      updateActiveTab(index);
+    });
+  });
+
+  updateActiveTab(0);
+</script>
