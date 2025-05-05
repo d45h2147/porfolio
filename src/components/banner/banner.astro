@@ -2,62 +2,60 @@
 // No necesitas script aquí; usaremos Alpine para interactividad.
 ---
 
-<div class="mx-auto w-full">
+<div
+  x-data="{ side: null }"
+  class="relative flex-1  h-[70vh] w-full select-none overflow-hidden mx-auto shadow-md shadow-black/25  "
+  @mouseleave="side = null"
+>
   <div
-    x-data="{ side: null }"
-    class="mx-auto flex h-[400px] items-center justify-center overflow-hidden shadow-md shadow-black/25"
-    @mouseleave="side = null"
+    class="absolute w-full h-full translate-x-1/2 overflow-hidden bg-reds-400 transition-all duration-500"
+    @mouseenter="side = 'backend'"
+    @click="side = 'backend'"
+    :class="side === 'backend' ? 'translate-x-[0px] ' : ''"
   >
-    <div
-      class="h-full w-4/6 overflow-hidden bg-amber-400 transition-all duration-500"
-      @mouseenter="side = 'frontend'"
-      @click="side = 'frontend'"
-    >
-      <!-- :class="side === 'frontend' ? 'translate-x-[0px]' : side === 'backend' ? '-translate-x-[100%]' : '-stranslate-x-1/2'" -->
-      <!-- :style="side === 'backend' ? 'width: 0%' : 'width: 100%'" -->
-      <img
-        src="/src/assets/banner-frontend.jpg"
-        alt="Frontend"
-        class="h-full w-full translate-x-1/2 transition-all duration-500"
-        :class="side === 'frontend' ? 'transslate-x-[0px] w-full' : ''"
-      />
-      <span class="absolute bottom-2 right-0 z-10 text-yellow-300"> Frontend </span>
-    </div>
+    <img
+      src="/src/assets/banner-backend.jpg"
+      alt="Backend"
+      class="h-full w-full -translate-x-1/2 transition-all duration-500"
+      :class="side === 'backend' ? 'translate-x-[0px]' : ''"
+    />
+    <!-- :style="side === 'frontend' ? 'width: 0%' : 'width: 100%'" -->
+    <span class="absolute top-2 z-10 text-yellow-300"> Backend </span>
+  </div>
 
-    <div
-      class="h-full w-4/6 overflow-hidden bg-red-400 transition-all duration-500"
-      @mouseenter="side = 'backend'"
-      @click="side = 'backend'"
-      :class="side === 'frontend' ? 'translate-x-[100%]' : ''"
+  <div
+    class="h-full overflow-hidden bg-ambser-400 transition-all duration-500"
+    @mouseenter="side = 'frontend'"
+    @click="side = 'frontend'"
+    :class="side === 'frontend' ? 'translate-x-[0px]' : side === 'backend' ? '-translate-x-[100%]' : '-translate-x-1/2'"
+    :style="side === 'backend' ? 'width: 0%' : 'width: 100%'"
     >
-      <!-- :class="side === 'backend' ? 'translate-x-[0px]' : side === 'frontend' ? '-translate-x-[100%]' : '-stranslate-x-1/2'" -->
-      <img
-        src="/src/assets/banner-backend.jpg"
-        alt="Backend"
-        class="h-full w-full -translate-x-1/2 transition-all duration-500"
-      />
-      <!-- :style="side === 'frontend' ? 'width: 0%' : 'width: 100%'" -->
-      <span class="absolute top-2 z-10 text-yellow-300"> Backend </span>
-    </div>
+    <img
+      src="/src/assets/banner-frontend.jpg"
+      alt="Frontend"
+      class="h-full w-full translate-x-1/2 transition-all duration-500"
+      :class="side === 'frontend' ? 'translate-x-[0px]' : ''"
+    />
+    <span class="absolute bottom-2 right-0 z-10 text-yellow-300"> Frontend </span>
+  </div>
 
-    <div
-      class="pointer-events-none absolute inset-0 bg-black/30 transition-all duration-500"
-      :class="side === null ? 'opacity-0' : 'opacity-100'"
-    >
-    </div>
+  <div
+    class="pointer-events-none absolute inset-0 bg-black/30 transition-all duration-500"
+    :class="side === null ? 'opacity-0' : 'opacity-100'"
+  >
+  </div>
 
-    <div
-      class="absolute bottom-8 left-1/2 -translate-x-1/2 text-3xl font-semibold text-white transition-opacity duration-300"
-    >
-      <template x-if="side === 'frontend'">
-        <p x-transition.opacity>Frontend Developer</p>
-      </template>
-      <template x-if="side === 'backend'">
-        <p x-transition.opacity>Backend Developer</p>
-      </template>
-      <template x-if="side === null">
-        <p x-transition.opacity>Full-Stack Developer</p>
-      </template>
-    </div>
+  <div
+    class="absolute bottom-8 left-1/2 -translate-x-1/2 text-3xl font-semibold text-white transition-opacity duration-300"
+  >
+    <template x-if="side === 'frontend'">
+      <p x-transition.opacity>Frontend Developer</p>
+    </template>
+    <template x-if="side === 'backend'">
+      <p x-transition.opacity>Backend Developer</p>
+    </template>
+    <template x-if="side === null">
+      <p x-transition.opacity>Full-Stack Developer</p>
+    </template>
   </div>
 </div>

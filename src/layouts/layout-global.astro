@@ -6,6 +6,7 @@ interface Props {
 const { title } = Astro.props;
 
 import Header from "../components/header/header.astro";
+import Menu from "../components/header/menu.astro";
 import "../styles/global.css";
 ---
 
@@ -35,7 +36,8 @@ import "../styles/global.css";
       setTheme(currentTheme);
     </script>
   </head>
-  <body class="mx-auto">
+  <body class="mx-auto relative">
+    <Menu />
     <!-- <Header /> -->
     <main class="mx-auto w-full flex-1">
       <slot />

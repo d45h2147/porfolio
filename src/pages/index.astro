@@ -63,8 +63,13 @@ import { Icon } from "astro-icon/components";
                 {experience.duration.start} - {experience.duration.end}
               </p>
               <p class="text-lg text-gray-600 dark:text-gray-400">
-                <strong class="text-primary">{experience.role}</strong> {experience.description}
+                {experience.description}
               </p>
+              <ul>
+                {experience.logros.map((logro) => (
+                  <li class="text-lg text-gray-600 dark:text-gray-400">* {logro}</li>
+                ))}
+              </ul>
               <div class="mt-4">
                 <ul class="flex flex-wrap gap-2">
                   {experience.skills.map((skill) => (
@@ -82,6 +87,7 @@ import { Icon } from "astro-icon/components";
         ))
       }
     </section>
+
     <section class="pb-12">
       <h2 class="text-4xl font-extrabold text-primary sm:text-5xl">
         <a href="/projects" class="underline">Proyectos</a> destacados
