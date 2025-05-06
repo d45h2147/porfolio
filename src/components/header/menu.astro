@@ -1,18 +1,40 @@
 ---
 import { Icon } from "astro-icon/components";
+const pathname = new URL(Astro.request.url).pathname;
+
 ---
 
-<div class="fixed right-0 top-1/2 z-10 translate-y-1/2">
+<div class="fixed right-0 top-0 z-10 ">
   <nav class="top-right open">
-    <!-- <a class="disc l1 bg-amber-100 dark:bg-gray-100 dark:text-black ">
-      <div>Messages</div>
-    </a> -->
-    <a class="disc l2 bg-amber-200 dark:bg-gray-200 dark:text-black "> Home </a>
-    <a class="disc l3 bg-amber-300 dark:bg-gray-300 dark:text-black ">
-      <div>Proyectos</div>
+    <div>
+      <a 
+        class="disc l2 bg-amber-200 dark:bg-gray-200 dark:text-black"  
+        href="/"
+        tabindex={1}
+      >
+        <span class="block rotate-180"  class:list={
+          pathname === "/"
+            ? "font-bold text-primary"
+            : "hover:text-primary dark:hover:text-primary"
+        }>Home</span>
+      </a>
+    </div>
+    <a 
+      class="disc l3 bg-amber-300 dark:bg-gray-300 dark:text-black"
+      href="/projects"
+      tabindex={1}>
+      <span class="block rotate-180" class:list={
+        pathname === "/projects"
+          ? "font-bold text-primary"
+          : "hover:text-primary dark:hover:text-primary"
+      }>Proyectos</span>
     </a>
     <a class="disc l4 bg-amber-400 dark:bg-gray-400 dark:text-black ">
-      <div>Contacto</div>
+      <span class="block rotate-180" class:list={
+        pathname === "/contact"
+          ? "font-bold"
+          : "hover:text-primary dark:hover:text-primary"
+      }>Contacto</span>
     </a>
     <button
       id="theme-toggle"
@@ -30,7 +52,7 @@ import { Icon } from "astro-icon/components";
 
   function setTheme(theme) {
     localStorage.setItem("theme", theme);
-    htmlElement.classList.toggle("dark", theme === "dark");
+    htmlElement.dataset.theme = theme === "dark" ? "dark" : null;
   }
 
   function toggleTheme() {
@@ -152,6 +174,7 @@ import { Icon } from "astro-icon/components";
       bottom: $i * $size;
       // background: $color;
       transition-delay: $i * $transition/$items;
+
 
       .open & {
         transition-delay: $i * $transition/$items;

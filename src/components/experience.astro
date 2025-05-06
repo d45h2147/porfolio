@@ -1,0 +1,139 @@
+---
+import { listExperience } from "../store/list-experiencies";
+import type { ListExperience } from "../store/list-experiencies";
+import { Icon } from "astro-icon/components";
+---
+
+<div class="flex flex-1 gap-4">
+  <ul class="border-primary h-full w-2/6 overflow-hidden border-l-4">
+    {
+      listExperience.get().map((exp: ListExperience, index: number) => (
+        <li class="experience-tab hover:bg-primary/10 cursor-pointer" data-index={index}>
+          <span class="block px-5 py-10">{exp.company}</span>
+          <div style="width: 0px;" class="transition-all duration-300" />
+        </li>
+      ))
+    }
+  </ul>
+  <div class="w-4/6">
+    {
+      listExperience.get().map((exp: ListExperience, index) => (
+        <article data-index={index} class="experience-item slide-target hidden rounded-lg p-4">
+          <div class="relative">
+            <h2 class="text-lg font-bold">
+              {exp.role} - {exp.company}
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400">
+              {exp.duration.start} - {exp.duration.end}
+            </p>
+            <p class="text-gray-600 dark:text-gray-400">{exp.description}</p>
+            <div class="mt-5">
+              <h3 class="flex items-center gap-3 pb-2">Achievements</h3>
+              <ul class="">
+                {exp.achievements.map((logro) => (
+                  <li class="flex items-center gap-3 py-2 text-gray-600 dark:text-gray-400">
+                    <Icon name="twemoji:rocket" class="size-5" />
+                    <span class="w-full">{logro}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class="mt-5">
+              <h3 class="flex items-center gap-3 pb-2">Skills</h3>
+              <ul class="flex flex-wrap gap-2">
+                {exp.skills.map((skill) => (
+                  <li class="flex items-center gap-2 py-2 text-gray-600 dark:text-gray-400">
+                    <span class="tag">
+                      <Icon name={skill.icon} class={`h-4 w-4`} />
+                      {skill.name}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  const tabs: HTMLElement[] = Array.from(document.querySelectorAll(".experience-tab"));
+  const tabBorder: HTMLElement[] = Array.from(document.querySelectorAll(".experience-tab div"));
+  const items: HTMLElement[] = Array.from(document.querySelectorAll(".experience-item"));
+
+  let activeIndex = 0;
+  items[0].classList.remove("hidden");
+  items[0].classList.add("flex");
+
+  function updateActiveTab(index: number) {
+    tabBorder.forEach((tab, i) => {
+      tab.style.width = "0px";
+      tab.classList.remove(
+        "border-b-4",
+        "border-primary",
+        // "animate-fade-right",
+        // "animate-duration-400",
+        // "animate-delay-0",
+        // "animate-ease-linear",
+        // "animate-normal",
+        // "animate-fill-both",
+      );
+
+      if (i == index) {
+        tab.style.width = "100%";
+        tab.classList.add(
+          "border-b-4",
+          "border-primary",
+          // "animate-fade-right",
+          // "animate-duration-400",
+          // "animate-delay-0",
+          // "animate-ease-linear",
+          // "animate-normal",
+          // "animate-fill-both",
+        );
+      }
+    });
+
+    tabs.forEach((tab, i) => {
+      tab.classList.remove("font-bold", "bg-primary/10");
+      if (i == index) {
+        tab.classList.add("font-bold", "bg-primary/10");
+      }
+    });
+
+    items.forEach((item) => {
+      item.classList.add("hidden");
+      item.classList.remove(
+        "bg-primary/10",
+        "animate-fade-up",
+        "animate-once",
+        "animate-duration-300",
+        "animate-ease-linear",
+      );
+    });
+
+    const current = document.querySelector(`.experience-item[data-index="${index}"]`);
+    if (current) {
+      current.classList.remove("hidden");
+      current.classList.add(
+        "bg-primary/10",
+        "animate-fade-up",
+        "animate-once",
+        "animate-duration-300",
+        "animate-ease-linear",
+      );
+    }
+
+    activeIndex = index;
+  }
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => {
+      updateActiveTab(index);
+    });
+  });
+
+  updateActiveTab(0);
+</script>
