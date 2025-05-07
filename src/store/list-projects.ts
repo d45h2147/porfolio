@@ -83,7 +83,7 @@ export const listProject = atom<ListProject[]>([
     // tags: [],
     stack: [
       { name: "python", color: "blue", icon: "logos:python" },
-      { name: "fastapi", color: "blue", icon: "logos:fastapi-icon" },
+      { name: "FastApi", color: "blue", icon: "logos:fastapi-icon" },
       { name: "postgresql", color: "blue", icon: "logos:postgresql" },
     ],
     urlRepo: "https://github.com/darensh/proyecto3",
@@ -101,7 +101,7 @@ export const listProject = atom<ListProject[]>([
     // tags: [],
     stack: [
       { name: "OpenAI", color: "blue", icon: "logos:openai-icon" },
-      { name: "FastAPI", color: "blue", icon: "logos:fastapi-icon" },
+      { name: "FastApi", color: "blue", icon: "logos:fastapi-icon" },
       { name: "PostgreSQL", color: "blue", icon: "logos:postgresql" },
     ],
     urlRepo: "https://github.com/darensh/proyecto4",
