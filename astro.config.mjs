@@ -27,6 +27,7 @@ export default defineConfig({
         // "tabler-icons": ["*"],
         logos: ["*"],
         lucide: ["*"],
+        "material-icon-theme": ["*"],
       },
     }),
   ],
