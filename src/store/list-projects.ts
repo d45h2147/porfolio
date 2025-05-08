@@ -17,26 +17,28 @@ export type ListProject = {
   date: string;
   author: string;
   level: "beginner" | "intermediate" | "advanced";
+  featured: boolean;
 };
 
 export const listProject = atom<ListProject[]>([
   {
-    name: "Proyecto 0",
+    name: "Generador de Gráficas Dinámicas con Highcharts",
     description:
-      "cupiditate laboriosam corrupti beatae quae quaerat, dolores in. Explicabo fugit dolore ducimus, laborum asperiores temporibus beatae 0",
-    images: ["https://placehold.co/100x80", "https://placehold.co/100x80"],
-    tags: ["opensource", "license MIT"],
-    // tags: [],
+      "Endpoint backend que genera imágenes de gráficas personalizadas a partir de datos y configuraciones enviadas por el cliente. La solución permite automatizar reportes visuales y sigue siendo utilizada activamente en entornos productivos.",
+    images: ["https://placehold.co/100x80", "https://placehold.co/100x80"], // aquí puedes subir capturas reales si las tienes
+    tags: ["backend", "automatización", "reporte visual"],
     stack: [
-      { name: "vue", color: "blue", icon: "logos:vue" },
-      { name: "tailwind", color: "blue", icon: "logos:tailwindcss-icon" },
-      { name: "typescript", color: "blue", icon: "logos:typescript-icon" },
+      { name: "python", color: "blue", icon: "logos:python" },
+      { name: "flask", color: "orange", icon: "logos:flask" },
+      { name: "docker", color: "blue", icon: "logos:docker-icon" },
+      { name: "highcharts", color: "red", icon: "logos:highcharts" },
     ],
-    urlRepo: "https://github.com/darensh/proyecto0",
-    urlDeploy: "https://www.google.com",
-    date: "2024-01-01",
+    urlRepo: "https://github.com/darensh/grafica-endpoint", // reemplaza con el enlace real si es público
+    urlDeploy: "", // puedes dejarlo vacío si es privado o en entorno cerrado
+    date: "2022-10-01",
     author: "Daren Sh",
-    level: "beginner",
+    level: "advanced",
+    featured: true,
   },
   {
     name: "Proyecto 1",
@@ -55,6 +57,26 @@ export const listProject = atom<ListProject[]>([
     date: "2024-02-11",
     author: "Daren Sh",
     level: "beginner",
+    featured: false,
+  },
+  {
+    name: "Detección de Placas Vehiculares con CropperJS",
+    description:
+      "Aplicación web que permite seleccionar regiones de imágenes con CropperJS para detectar y aislar placas de vehículos. El sistema procesa la imagen recortada para identificar y extraer la matrícula, siendo útil como paso previo a reconocimiento de texto (OCR) o análisis de tráfico.",
+    images: ["https://placehold.co/100x80", "https://placehold.co/100x80"], // sustituye con capturas reales si puedes
+    tags: ["image processing", "UI interactivity", "detección visual"],
+    stack: [
+      { name: "vue", color: "blue", icon: "logos:vue" },
+      { name: "cropperjs", color: "green", icon: "mdi:crop" },
+      { name: "typescript", color: "blue", icon: "logos:typescript-icon" },
+      { name: "tailwind", color: "blue", icon: "logos:tailwindcss-icon" }
+    ],
+    urlRepo: "https://github.com/darensh/placa-cropper", // ajusta según tu repositorio
+    urlDeploy: "https://placa-cropper.vercel.app", // o el que uses para demo online
+    date: "2024-04-10",
+    author: "Daren Sh",
+    level: "intermediate",
+    featured: true,
   },
   {
     name: "Proyecto 2",
@@ -73,6 +95,7 @@ export const listProject = atom<ListProject[]>([
     date: "2024-03-01",
     author: "Daren Sh",
     level: "beginner",
+    featured: false,
   },
   {
     name: "Proyecto 3",
@@ -91,6 +114,7 @@ export const listProject = atom<ListProject[]>([
     date: "2024-04-01",
     author: "Daren Sh",
     level: "beginner",
+    featured: false,
   },
   {
     name: "Proyecto 4",
@@ -109,6 +133,7 @@ export const listProject = atom<ListProject[]>([
     date: "2024-05-01",
     author: "Daren Sh",
     level: "beginner",
+    featured: false,
   },
   {
     name: "Proyecto 5",
@@ -127,6 +152,7 @@ export const listProject = atom<ListProject[]>([
     date: "2024-06-01",
     author: "Daren Sh",
     level: "beginner",
+    featured: false,
   },
   {
     name: "Proyecto 6",
@@ -145,6 +171,7 @@ export const listProject = atom<ListProject[]>([
     date: "2024-07-01",
     author: "Daren Sh",
     level: "beginner",
+    featured: false,
   },
   {
     name: "Proyecto 7",
@@ -163,14 +190,13 @@ export const listProject = atom<ListProject[]>([
     date: "2024-08-01",
     author: "Daren Sh",
     level: "beginner",
+    featured: false,
   },
 ]);
 
-export const getLastestProject = (limit: number = 3) => {
+export const getFeaturedProject = (limit: number = 3) => {
   const projects = listProject.get();
-  return projects
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, limit);
+  return projects.filter((p) => p.featured);
 };
 
 export const getAllTags = () =>

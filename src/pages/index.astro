@@ -2,7 +2,7 @@
 import LayoutGlobal from "../layouts/layout-global.astro";
 import CardProyect from "../components/cards/card-proyect.astro";
 import Banner from "../components/banner/banner.astro";
-import { getLastestProject } from "../store/list-projects";
+import { getFeaturedProject } from "../store/list-projects";
 
 import Experience from "../components/experience.astro";
 ---
@@ -62,7 +62,7 @@ import Experience from "../components/experience.astro";
       </p>
 
       <div class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {getLastestProject().map((project) => <CardProyect project={project} />)}
+        {getFeaturedProject().map((project) => <CardProyect project={project} />)}
       </div>
     </section>
   </div>
