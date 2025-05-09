@@ -1,9 +1,9 @@
 ---
 import { Icon } from "astro-icon/components";
-import type { ListProject } from "../../store/list-projects";
+import type { Project } from "../../store/list-projects";
 import { extractTags, extractSkills } from "../../store/list-projects";
 interface Props {
-  project: ListProject;
+  project: Project;
   disableLink?: boolean;
 }
 
